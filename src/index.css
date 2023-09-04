@@ -184,3 +184,13 @@ body {
   align-items: center;
   gap: 0.75rem;
 }
+
+/* Examples on top of each other */
+.example-stack {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.example-row--spaced {
+  margin-top: 1rem;
+}
