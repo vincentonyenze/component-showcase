@@ -1,5 +1,6 @@
 // The whole page. It's a component too: a function that returns JSX.
-// For now it's just the layout; the real components arrive one per step.
+// The real components arrive one per step.
+import Button from "./components/Button/Button";
 
 // Plain JavaScript works anywhere in the file, outside the JSX
 const COMPONENT_COUNT = 6;
@@ -25,7 +26,39 @@ function App() {
         {/* "className", not "class": class is a reserved word in JavaScript */}
         <section className="showcase-section" aria-labelledby="buttons-title">
           <h2 id="buttons-title">Buttons</h2>
-          <p>Coming in Step 3.</p>
+          <p>One component, many looks: everything is set with props.</p>
+
+          <div className="showcase-section__examples">
+            <h3 className="example-label">Variants</h3>
+            <div className="example-row">
+              <Button>Primary</Button>
+              <Button variant="secondary">Secondary</Button>
+              <Button variant="ghost">Ghost</Button>
+              <Button variant="danger">Delete</Button>
+            </div>
+
+            <h3 className="example-label">Sizes</h3>
+            <div className="example-row">
+              <Button size="small">Small</Button>
+              <Button size="medium">Medium</Button>
+              <Button size="large">Large</Button>
+            </div>
+
+            <h3 className="example-label">With an icon, and disabled</h3>
+            <div className="example-row">
+              <Button icon="⬇️">Download</Button>
+              <Button variant="secondary" icon="✏️">
+                Edit
+              </Button>
+              {/* A prop with no value means true: disabled is the same as disabled={true} */}
+              <Button disabled>Can't click me</Button>
+            </div>
+
+            <h3 className="example-label">Full width</h3>
+            <Button fullWidth size="large">
+              Continue to checkout
+            </Button>
+          </div>
         </section>
 
         <section className="showcase-section" aria-labelledby="feedback-title">
