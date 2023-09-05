@@ -4,6 +4,14 @@ import { useState } from "react";
 import Button from "./components/Button/Button";
 import Badge from "./components/Badge/Badge";
 import Alert from "./components/Alert/Alert";
+import Card from "./components/Card/Card";
+
+// Importing an image gives back its URL. The build tool copies the file,
+// gives it a unique name (so browsers never show an old cached version),
+// and fails loudly if the file is missing: safer than typing a path.
+import macbookPhoto from "./assets/macbook.webp";
+import iphonePhoto from "./assets/iphone.webp";
+import perfumePhoto from "./assets/perfume.webp";
 
 // Plain JavaScript works anywhere in the file, outside the JSX
 const COMPONENT_COUNT = 6;
@@ -112,7 +120,77 @@ function App() {
 
         <section className="showcase-section" aria-labelledby="cards-title">
           <h2 id="cards-title">Cards</h2>
-          <p>Coming in Step 5.</p>
+          <p>
+            One Card, filled with other components: a Badge on top, Buttons in the
+            footer. Card doesn't need to know what's inside it.
+          </p>
+
+          <div className="showcase-section__examples">
+            <h3 className="example-label">Product cards</h3>
+            <div className="card-grid">
+              <Card
+                image={macbookPhoto}
+                imageAlt="Apple MacBook Pro 14 inch in space grey"
+                eyebrow={<Badge tone="info">New</Badge>}
+                title="MacBook Pro 14 Inch"
+                footer={<Button fullWidth>Add to cart</Button>}
+              >
+                <p className="price">$1,999.99</p>
+              </Card>
+
+              <Card
+                image={iphonePhoto}
+                imageAlt="iPhone 5s, back view"
+                eyebrow={<Badge tone="danger">20% off</Badge>}
+                title="iPhone 5s"
+                footer={
+                  <>
+                    <Button>Add to cart</Button>
+                    <Button variant="ghost" icon="♡" aria-label="Save iPhone 5s for later" />
+                  </>
+                }
+              >
+                <p className="price">
+                  $159.99 <s>$199.99</s>
+                </p>
+              </Card>
+
+              <Card
+                image={perfumePhoto}
+                imageAlt="Calvin Klein CK One bottle"
+                eyebrow={<Badge tone="warning">Only 2 left</Badge>}
+                title="Calvin Klein CK One"
+                footer={<Button variant="secondary" fullWidth>View details</Button>}
+              >
+                <p className="price">$49.99</p>
+              </Card>
+            </div>
+
+            <h3 className="example-label">Without an image</h3>
+            <div className="card-grid">
+              <Card
+                eyebrow={<Badge tone="success" dot>Live</Badge>}
+                title="Monthly revenue"
+              >
+                <p className="stat">$12,480</p>
+                <p>▲ 8.2% vs last month</p>
+              </Card>
+
+              <Card
+                title="Upgrade to Pro"
+                footer={
+                  <>
+                    <Button size="small">Upgrade</Button>
+                    <Button size="small" variant="ghost">
+                      Maybe later
+                    </Button>
+                  </>
+                }
+              >
+                <p>Unlimited projects, priority support and advanced reports.</p>
+              </Card>
+            </div>
+          </div>
         </section>
       </main>
 
