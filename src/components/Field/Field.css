@@ -1,0 +1,87 @@
+/* ===== Text fields and dropdowns ===== */
+.field {
+  display: grid;
+  gap: 0.35rem;
+  /* Pack label, box and hint at the top. Without this, a field next to a
+     taller one (say, one with a hint) stretches its box to fill the row. */
+  align-content: start;
+}
+
+.field__label {
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.field__required {
+  color: var(--color-danger);
+}
+
+.field__control {
+  width: 100%;
+  padding: 0.6rem 0.75rem;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-small);
+  background: var(--color-surface);
+}
+
+.field__control:focus {
+  border-color: var(--color-primary);
+  outline: 3px solid var(--color-primary-soft);
+  outline-offset: 0;
+}
+
+.field__control:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.field__control::placeholder {
+  color: var(--color-muted);
+}
+
+.field__hint {
+  color: var(--color-muted);
+  font-size: 0.85rem;
+}
+
+/* The error state is styled from aria-invalid: the same attribute that
+   tells screen readers the value is wrong */
+.field__control[aria-invalid="true"] {
+  border-color: var(--color-danger);
+}
+
+.field__error {
+  color: var(--color-danger);
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.field__error::before {
+  content: "⚠ ";
+}
+
+/* ===== Checkboxes ===== */
+.checkbox {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  align-items: center;
+  column-gap: 0.6rem;
+}
+
+.checkbox__input {
+  width: 1.15rem;
+  height: 1.15rem;
+  margin: 0;
+  accent-color: var(--color-primary);
+}
+
+.checkbox__label {
+  cursor: pointer;
+}
+
+/* The hint lines up under the label text, not under the box */
+.checkbox__hint {
+  grid-column: 2;
+  color: var(--color-muted);
+  font-size: 0.85rem;
+}

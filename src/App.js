@@ -5,6 +5,9 @@ import Button from "./components/Button/Button";
 import Badge from "./components/Badge/Badge";
 import Alert from "./components/Alert/Alert";
 import Card from "./components/Card/Card";
+import TextField from "./components/Field/TextField";
+import Select from "./components/Field/Select";
+import Checkbox from "./components/Field/Checkbox";
 
 // Importing an image gives back its URL. The build tool copies the file,
 // gives it a unique name (so browsers never show an old cached version),
@@ -12,6 +15,18 @@ import Card from "./components/Card/Card";
 import macbookPhoto from "./assets/macbook.webp";
 import iphonePhoto from "./assets/iphone.webp";
 import perfumePhoto from "./assets/perfume.webp";
+
+// (All imports go at the top of the file, before any other code. The
+// build checks this with ESLint, and stops if it isn't so.)
+
+// The choices for the country dropdown: data, kept apart from the JSX
+const COUNTRIES = [
+  { value: "ng", label: "Nigeria" },
+  { value: "gh", label: "Ghana" },
+  { value: "ke", label: "Kenya" },
+  { value: "za", label: "South Africa" },
+  { value: "gb", label: "United Kingdom" },
+];
 
 // Plain JavaScript works anywhere in the file, outside the JSX
 const COMPONENT_COUNT = 6;
@@ -21,6 +36,18 @@ function App() {
   // Changing a component's "key" makes React throw it away and build a
   // fresh one. Bumping this number brings back every dismissed alert.
   const [alertsVersion, setAlertsVersion] = useState(0);
+
+  // Whether the demo form has been sent (to show a message)
+  const [formSent, setFormSent] = useState(false);
+
+  // A form's submit event: stop the browser reloading the page, and show
+  // what was typed. FormData reads every field by its name="" attribute.
+  function handleSubmit(event) {
+    event.preventDefault();
+    const values = Object.fromEntries(new FormData(event.currentTarget));
+    console.log("The form would send:", values);
+    setFormSent(true);
+  }
 
   // A component returns ONE outer element. Everything else goes inside it.
   // <> ... </> is a "fragment": a wrapper that doesn't add an extra element
@@ -190,6 +217,63 @@ function App() {
                 <p>Unlimited projects, priority support and advanced reports.</p>
               </Card>
             </div>
+          </div>
+        </section>
+
+        <section className="showcase-section" aria-labelledby="forms-title">
+          <h2 id="forms-title">Form fields</h2>
+          <p>
+            Every field has a real label, plus an optional hint and error that
+            screen readers read out with it.
+          </p>
+
+          <div className="showcase-section__examples">
+            <h3 className="example-label">The different states</h3>
+            <div className="field-grid">
+              <TextField label="Full name" placeholder="Amara Okafor" />
+              <TextField
+                label="Email"
+                type="email"
+                hint="We'll only use it to send your receipts."
+                placeholder="you@example.com"
+              />
+              <TextField
+                label="Password"
+                type="password"
+                required
+                error="Use at least 8 characters."
+                defaultValue="abc"
+              />
+              <TextField label="Account ID" defaultValue="ACC-20931" disabled />
+            </div>
+
+            <h3 className="example-label">A whole form</h3>
+            {/* noValidate: the browser's own error bubbles can't be styled
+                or worded well, so they're turned off */}
+            <form className="demo-form" onSubmit={handleSubmit} noValidate>
+              <TextField label="Shop name" name="shop" required placeholder="My Shop" />
+              <Select
+                label="Country"
+                name="country"
+                placeholder="Choose a country"
+                options={COUNTRIES}
+                hint="Where your business is based."
+              />
+              <Checkbox name="newsletter" label="Send me product news" hint="About once a month." />
+              <Checkbox name="terms" label="I agree to the terms" required />
+              <div className="example-row">
+                <Button type="submit">Create shop</Button>
+                <Button type="reset" variant="ghost" onClick={() => setFormSent(false)}>
+                  Clear
+                </Button>
+              </div>
+              {formSent && (
+                <Alert tone="success" title="Form sent (not really)">
+                  This is a demo: nothing was sent anywhere. Open the console (F12) to
+                  see the values it read.
+                </Alert>
+              )}
+            </form>
           </div>
         </section>
       </main>
