@@ -1,0 +1,97 @@
+.navbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem 1.5rem;
+  padding: 0.6rem 1rem;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  background: var(--color-surface);
+}
+
+.navbar__brand {
+  font-weight: 800;
+  font-size: 1.05rem;
+  white-space: nowrap;
+}
+
+.navbar__menu {
+  display: flex;
+  flex: 1;
+  align-items: center;
+  gap: 1rem;
+}
+
+.navbar__links {
+  display: flex;
+  gap: 0.25rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.navbar__link {
+  display: block;
+  padding: 0.45rem 0.75rem;
+  border-radius: var(--radius-small);
+  color: var(--color-muted);
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.navbar__link:hover {
+  color: var(--color-text);
+  background: var(--color-bg);
+}
+
+/* The page you're on, styled from the same attribute screen readers use */
+.navbar__link[aria-current="page"] {
+  color: var(--color-primary);
+  background: var(--color-primary-soft);
+}
+
+.navbar__actions {
+  display: flex;
+  gap: 0.5rem;
+  margin-left: auto; /* pushed to the right */
+}
+
+/* Only on narrow screens */
+.navbar__toggle {
+  display: none;
+  margin-left: auto;
+  padding: 0.4rem 0.75rem;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-small);
+  background: var(--color-surface);
+  font-weight: 600;
+  cursor: pointer;
+}
+
+/* ===== Narrow screens: the links fold into a menu ===== */
+@media (max-width: 720px) {
+  .navbar__toggle {
+    display: block;
+  }
+
+  .navbar__menu {
+    display: none;
+    flex-basis: 100%; /* its own full-width row under the brand */
+    flex-direction: column;
+    align-items: stretch;
+    padding-top: 0.5rem;
+    border-top: 1px solid var(--color-border);
+  }
+
+  .navbar__menu--open {
+    display: flex;
+  }
+
+  .navbar__links {
+    flex-direction: column;
+  }
+
+  .navbar__actions {
+    margin-left: 0;
+  }
+}

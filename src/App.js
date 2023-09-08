@@ -8,6 +8,7 @@ import Card from "./components/Card/Card";
 import TextField from "./components/Field/TextField";
 import Select from "./components/Field/Select";
 import Checkbox from "./components/Field/Checkbox";
+import Navbar from "./components/Navbar/Navbar";
 
 // Importing an image gives back its URL. The build tool copies the file,
 // gives it a unique name (so browsers never show an old cached version),
@@ -28,6 +29,24 @@ const COUNTRIES = [
   { value: "gb", label: "United Kingdom" },
 ];
 
+// The page's own navigation: one link per section. Each needs a unique,
+// stable id, used as its React key and to know which one is current.
+const PAGE_LINKS = [
+  { id: "buttons", label: "Buttons", href: "#buttons-title" },
+  { id: "feedback", label: "Badges & alerts", href: "#feedback-title" },
+  { id: "cards", label: "Cards", href: "#cards-title" },
+  { id: "forms", label: "Forms", href: "#forms-title" },
+  { id: "navigation", label: "Navigation", href: "#navigation-title" },
+];
+
+// A pretend shop's navigation, to show the same component used differently
+const SHOP_LINKS = [
+  { id: "home", label: "Home", href: "#home" },
+  { id: "products", label: "Products", href: "#products" },
+  { id: "deals", label: "Deals", href: "#deals" },
+  { id: "help", label: "Help", href: "#help" },
+];
+
 // Plain JavaScript works anywhere in the file, outside the JSX
 const COMPONENT_COUNT = 6;
 const year = new Date().getFullYear();
@@ -36,6 +55,10 @@ function App() {
   // Changing a component's "key" makes React throw it away and build a
   // fresh one. Bumping this number brings back every dismissed alert.
   const [alertsVersion, setAlertsVersion] = useState(0);
+
+  // Which link is current in each navbar
+  const [pageSection, setPageSection] = useState("buttons");
+  const [shopPage, setShopPage] = useState("home");
 
   // Whether the demo form has been sent (to show a message)
   const [formSent, setFormSent] = useState(false);
@@ -54,6 +77,16 @@ function App() {
   // to the page.
   return (
     <>
+      <div className="page-nav">
+        <Navbar
+          brand="⚛️ Showcase"
+          links={PAGE_LINKS}
+          currentId={pageSection}
+          onNavigate={setPageSection}
+          label="Showcase sections"
+        />
+      </div>
+
       <header className="page-header">
         <h1>Component Showcase</h1>
         {/* Curly braces put a JavaScript value into JSX. (This is also how
@@ -274,6 +307,41 @@ function App() {
                 </Alert>
               )}
             </form>
+          </div>
+        </section>
+
+        <section className="showcase-section" aria-labelledby="navigation-title">
+          <h2 id="navigation-title">Navigation</h2>
+          <p>
+            The bar at the top of this page and the one below are the SAME
+            component, given different props. Make the window narrow to see the
+            links fold into a menu.
+          </p>
+
+          <div className="showcase-section__examples">
+            <h3 className="example-label">A shop's navigation</h3>
+            <Navbar
+              brand="🛍️ Shop"
+              links={SHOP_LINKS}
+              currentId={shopPage}
+              // Passing the setter itself: Navbar calls onNavigate("deals"),
+              // which is setShopPage("deals")
+              onNavigate={setShopPage}
+              label="Shop demo"
+              actions={
+                <>
+                  <Button variant="ghost" size="small">
+                    Sign in
+                  </Button>
+                  <Button size="small" icon="🛒">
+                    Cart <Badge tone="neutral">3</Badge>
+                  </Button>
+                </>
+              }
+            />
+            <p className="example-note">
+              You're on: <strong>{SHOP_LINKS.find((link) => link.id === shopPage).label}</strong>
+            </p>
           </div>
         </section>
       </main>

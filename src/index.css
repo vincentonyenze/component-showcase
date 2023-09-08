@@ -233,3 +233,27 @@ body {
   gap: 1.1rem;
   max-width: 420px;
 }
+
+/* The page's own navigation stays at the top while scrolling */
+.page-nav {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  width: 100%;
+  max-width: 960px;
+  margin-inline: auto;
+  padding: 0.75rem 1.25rem 0.5rem;
+  /* The page colour behind the bar, so content scrolling underneath
+     does not show through the gap around it */
+  background: var(--color-bg);
+}
+
+/* Sections jumped to from the navigation stop below it */
+.showcase-section h2 {
+  scroll-margin-top: 5.5rem;
+}
+
+.example-note {
+  margin-top: 0.75rem;
+  color: var(--color-muted);
+}
