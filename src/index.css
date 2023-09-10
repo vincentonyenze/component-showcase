@@ -249,7 +249,7 @@ body {
 }
 
 /* Sections jumped to from the navigation stop below it */
-.showcase-section h2 {
+.showcase-section {
   scroll-margin-top: 5.5rem;
 }
 
