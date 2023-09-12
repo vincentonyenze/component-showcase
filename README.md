@@ -1,70 +1,112 @@
-# Getting Started with Create React App
+# Component Showcase
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+A small library of **reusable React components**, shown off in all their versions on one page: buttons, badges, alerts, cards, form fields and navigation. Each component is built to be accessible, works in light and dark mode, and is covered by tests: **39 automated tests** in total.
 
-## Available Scripts
+This is **Project 14** in my beginner-to-expert web development roadmap, and my first React project (Level 3). It was created with **Create React App**.
 
-In the project directory, you can run:
+<!-- Add a screenshot: save one as screenshot.png in this folder and uncomment the line below -->
+<!-- ![Component showcase screenshot](screenshot.png) -->
 
-### `npm start`
+## The components
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+| Component | What it does | Props |
+|---|---|---|
+| `Button` | A button in 4 styles and 3 sizes, with an optional icon | `variant`, `size`, `icon`, `fullWidth`, `type`, plus any normal button prop |
+| `Badge` | A small status label, optionally with a dot | `tone`, `dot` |
+| `Alert` | A message box that can be dismissed | `tone`, `title`, `dismissible` |
+| `Card` | A box with slots for an image, a label, a title, content and a footer | `image`, `imageAlt`, `eyebrow`, `title`, `titleAs`, `footer` |
+| `TextField` | A labelled text box with a hint and an error | `label`, `hint`, `error`, `required`, plus any input prop |
+| `Select` | A labelled dropdown | `label`, `options`, `placeholder`, `hint`, `error` |
+| `Checkbox` | A checkbox with a clickable label | `label`, `hint` |
+| `Navbar` | Navigation that folds into a menu on narrow screens | `brand`, `links`, `currentId`, `onNavigate`, `actions`, `label` |
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+Example:
 
-### `npm test`
+```jsx
+<Card
+  image={photo}
+  imageAlt="Apple MacBook Pro 14 inch"
+  eyebrow={<Badge tone="info">New</Badge>}
+  title="MacBook Pro 14 Inch"
+  footer={<Button fullWidth>Add to cart</Button>}
+>
+  <p>$1,999.99</p>
+</Card>
+```
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## Accessibility built in
 
-### `npm run build`
+- Every form field has a **real, connected label** (`useId()` gives each one a unique id)
+- Hints and errors are **read out with the field** (`aria-describedby`), and errors set `aria-invalid`
+- Alerts use `role="alert"` for problems and `role="status"` for good news
+- The navigation marks the current link with `aria-current="page"`, and its menu button uses `aria-expanded`
+- Icons are hidden from screen readers; icon-only buttons have an `aria-label`
+- Colour is never the only signal: badges and errors always include words
+- Text on coloured buttons stays readable in **both** themes
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## What I learned
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+- **Create React App**: creating a project, the dev server with instant reload, `npm run build`, and the ESLint checks that stop a build
+- **JSX**: `className`, `htmlFor`, curly braces, fragments, one outer element
+- **Components and props**, default values, `children`, and passing other props through with `...rest`
+- **Conditional rendering**: `&&`, `? :`, and returning `null`
+- **Composition**: components inside components, and props that hold JSX (slots)
+- **Lists**: `map()` and why `key` must be a stable id
+- **State with `useState`**, event handlers, and keeping state in the component that uses it
+- **Data flow**: data goes down as props, events come up as function calls
+- **One source of truth**: the navigation is built from the same list as the sections
+- **Testing with React Testing Library**: finding things by role and label, `user-event`, `jest.fn()`, and proving a test can fail
+- **Importing images** so the build checks them and names them for caching
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+## How to run
 
-### `npm run eject`
+You need [Node.js](https://nodejs.org/) 18 or newer.
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+```bash
+git clone https://github.com/vincentonyenze/component-showcase.git
+cd component-showcase
+npm install
+npm start
+```
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+It opens at **http://localhost:3000** and reloads instantly when you save a file.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+| Command | Does |
+|---|---|
+| `npm start` | runs the app while you work on it |
+| `npm test` | runs the tests, and re-runs them as you save (press `q` to quit) |
+| `npm run build` | makes the finished, optimised app in `build/` |
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+**About Create React App:** the React team stopped recommending it in 2025, so `npm install` shows a deprecation warning and lists "vulnerabilities". Those are in its old **development tools**, not in the app itself. Don't run `npm audit fix --force`: it breaks Create React App projects. Later projects in my roadmap use **Vite** instead.
 
-## Learn More
+## Project structure
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+```
+src/
+├── index.js                # Starts React and draws <App /> into #root
+├── index.css               # Design tokens, reset, page layout
+├── App.js                  # The page: navigation, header, sections from a list
+├── App.test.js
+├── components/             # Reusable building blocks
+│   ├── Button/             #   Button.js, Button.css, Button.test.js
+│   ├── Badge/
+│   ├── Alert/
+│   ├── Card/
+│   ├── Field/              #   Field (shared), TextField, Select, Checkbox
+│   ├── Navbar/
+│   └── Showcase/           #   ShowcaseSection, ExampleGroup (page layout pieces)
+├── sections/               # The examples shown in each section of this page
+├── assets/                 # Product photos
+└── utils/
+    └── classNames.js       # Joins class names, skipping empty ones
+```
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+## Known limitations
 
-### Code Splitting
+- The form fields are **uncontrolled** (the browser keeps their values). Controlled inputs with state come in my next project.
+- No `Modal`, `Tabs` or `Tooltip` components yet.
+- The navigation highlights the link you click, not the section you've scrolled to.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+## Credits
 
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+Product photos from [DummyJSON](https://dummyjson.com/), free sample data for practising web development.
